@@ -1,0 +1,279 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =========================================================
+   Tokens de tema Ionic (Shadow DOM se personaliza vía CSS Custom Properties)
+   Estética: brutalismo "riso-print" (papel crema + tintas planas)
+   ========================================================= */
+:root {
+  --ion-color-primary: #2b2bff;
+  --ion-color-primary-rgb: 43, 43, 255;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #2626e0;
+  --ion-color-primary-tint: #4040ff;
+
+  --ion-background-color: #f2ede4;
+  --ion-text-color: #111111;
+  --ion-font-family: 'Bricolage Grotesque', system-ui, -apple-system, sans-serif;
+
+  /* Alto de la cabecera: base de los cálculos de layout con vh */
+  --header-h: 64px;
+}
+
+/* =========================================================
+   Utilidades brutalistas (Light DOM)
+   ========================================================= */
+@layer components {
+  /* Interacción de "pulsación": la sombra dura se desplaza al pasar y al pulsar */
+  .brutal-press {
+    @apply shadow-brutal transition-[transform,box-shadow] duration-100 ease-out;
+  }
+  .brutal-press:hover {
+    @apply -translate-x-0.5 -translate-y-0.5 shadow-riso;
+  }
+  .brutal-press:active {
+    @apply translate-x-1 translate-y-1 shadow-none;
+  }
+
+  .brutal-btn {
+    @apply brutal-press inline-flex min-h-[44px] items-center justify-center gap-2 border-3 border-solid border-ink px-4 py-2 text-sm font-extrabold;
+  }
+
+  /* Trama de semitono (puntos) en lugar de la típica cinta de señalización */
+  .halftone {
+    background-color: #2b2bff;
+    background-image: radial-gradient(#111 1.4px, transparent 1.6px);
+    background-size: 9px 9px;
+  }
+
+  /* Papel milimetrado tenue para el área de trabajo */
+  .paper-grid {
+    background-color: #f2ede4;
+    background-image: linear-gradient(rgba(17, 17, 17, 0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(17, 17, 17, 0.07) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+
+  /* Etiqueta técnica de sección: "01 / Buscar" */
+  .section-tag {
+    @apply font-mono text-xs font-bold uppercase tracking-[0.18em];
+  }
+
+  .font-display {
+    font-variation-settings: 'wdth' 75;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brutal-press,
+  .brutal-press:hover,
+  .brutal-press:active {
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+*:focus-visible {
+  outline: 3px solid #2b2bff;
+  outline-offset: 3px;
+}
+
+/* =========================================================
+   Componentes Ionic (Shadow DOM): personalización por variables y ::part
+   ========================================================= */
+ion-toolbar.brutal-toolbar {
+  --background: #2b2bff;
+  --color: #fff;
+  --border-width: 0;
+  --min-height: 60px;
+}
+
+ion-searchbar.brutal-search {
+  --background: #fff;
+  --border-radius: 0;
+  --box-shadow: none;
+  --color: #111;
+  --placeholder-color: #4a4a4a;
+  --placeholder-opacity: 1;
+  --icon-color: #111;
+  padding: 0;
+  border: 3px solid #111;
+  box-shadow: 6px 6px 0 #111;
+  font-weight: 600;
+  transition: box-shadow 100ms ease-out;
+}
+ion-searchbar.brutal-search.searchbar-has-focus {
+  box-shadow: 5px 5px 0 #2b2bff, 10px 10px 0 #111;
+}
+
+ion-segment.brutal-segment {
+  --background: #fff;
+  border: 3px solid #111;
+  border-radius: 0;
+  box-shadow: 6px 6px 0 #111;
+}
+ion-segment.brutal-segment ion-segment-button {
+  --border-radius: 0;
+  --color: #111;
+  --color-checked: #fff;
+  --background-checked: #2b2bff;
+  --background-hover: #b9a5ff;
+  --background-hover-opacity: 0.5;
+  --indicator-color: transparent;
+  --indicator-box-shadow: none;
+  min-height: 48px;
+  margin: 0;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 800;
+  border-right: 3px solid #111;
+}
+ion-segment.brutal-segment ion-segment-button:last-of-type {
+  border-right: 0;
+}
+
+ion-list.brutal-list {
+  background: transparent;
+}
+
+ion-item.incident-item {
+  --background: #fff;
+  --background-hover: #b9a5ff;
+  --background-hover-opacity: 0.25;
+  --padding-start: 16px;
+  --inner-padding-end: 16px;
+  --border-width: 0;
+  --inner-border-width: 0;
+}
+
+ion-fab-button.brutal-fab {
+  --background: #c6f432;
+  --background-hover: #c6f432;
+  --background-activated: #c6f432;
+  --background-focused: #c6f432;
+  --color: #111;
+  --border-radius: 0;
+  --box-shadow: 5px 5px 0 #2b2bff, 10px 10px 0 #111;
+  width: 64px;
+  height: 64px;
+  transition: transform 100ms ease-out;
+}
+ion-fab-button.brutal-fab::part(native) {
+  border: 3px solid #111;
+}
+ion-fab-button.brutal-fab:hover {
+  transform: translate(-2px, -2px) rotate(-3deg);
+}
+ion-fab-button.brutal-fab:active {
+  --box-shadow: none;
+  transform: translate(6px, 6px);
+}
+
+ion-item.brutal-field {
+  --background: #fff;
+  --border-radius: 0;
+  --border-width: 0;
+  --inner-border-width: 0;
+  --highlight-color-focused: #2b2bff;
+  border: 3px solid #111;
+  font-weight: 600;
+}
+ion-item.brutal-field.is-invalid {
+  border-color: #ff4d2e;
+  box-shadow: 5px 5px 0 #ff4d2e;
+}
+
+ion-modal.brutal-modal {
+  --border-radius: 0;
+  --background: #f2ede4;
+}
+@media (min-width: 768px) {
+  ion-modal.brutal-modal {
+    --width: 640px;
+    --height: min(88vh, 760px);
+  }
+  ion-modal.brutal-modal::part(content) {
+    border: 4px solid #111;
+    box-shadow: 8px 8px 0 #2b2bff, 16px 16px 0 #111;
+  }
+}
+
+ion-toast.brutal-toast {
+  --background: #111;
+  --color: #fff;
+  --button-color: #c6f432;
+  --border-radius: 0;
+  --box-shadow: 6px 6px 0 #2b2bff;
+  font-weight: 700;
+}
+
+/* =========================================================
+   Movimiento: entradas, revelado y micro-interacciones
+   (fill-mode "backwards" para no bloquear los transform de :hover)
+   ========================================================= */
+@keyframes slam {
+  0% { opacity: 0; transform: scale(1.18) rotate(-2.5deg); }
+  55% { opacity: 1; transform: scale(0.97) rotate(0.6deg); }
+  80% { transform: scale(1.01) rotate(-0.2deg); }
+  100% { transform: none; }
+}
+@keyframes rise {
+  from { opacity: 0; transform: translateY(32px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes word-up {
+  from { transform: translateY(115%) rotate(4deg); }
+  to { transform: none; }
+}
+@keyframes pop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.3) rotate(-5deg); }
+  100% { transform: scale(1); }
+}
+@keyframes leave {
+  to { opacity: 0; transform: translateX(110%) rotate(5deg); }
+}
+@keyframes flash {
+  from { box-shadow: inset 0 0 0 999px rgba(198, 244, 50, 0.95); }
+  to { box-shadow: inset 0 0 0 999px rgba(198, 244, 50, 0); }
+}
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0); }
+  25% { transform: rotate(-8deg); }
+  75% { transform: rotate(8deg); }
+}
+
+.anim-slam { animation: slam 700ms cubic-bezier(0.2, 0.9, 0.25, 1.15) backwards; animation-delay: var(--d, 0ms); }
+.anim-rise { animation: rise 560ms cubic-bezier(0.16, 1, 0.3, 1) backwards; animation-delay: var(--d, 0ms); }
+.anim-pop { display: inline-block; animation: pop 450ms cubic-bezier(0.34, 1.56, 0.64, 1); }
+.anim-leave { animation: leave 320ms cubic-bezier(0.7, 0, 0.84, 0) forwards; pointer-events: none; }
+.anim-flash { animation: flash 700ms ease-out; }
+.anim-wiggle { animation: wiggle 500ms ease-in-out 1 backwards; animation-delay: var(--d, 0ms); }
+
+/* Titular palabra a palabra: cada palabra sube desde detrás de una máscara */
+.word-mask { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: 0.1em; margin-bottom: -0.1em; }
+.word-mask > span { display: inline-block; animation: word-up 750ms cubic-bezier(0.16, 1, 0.3, 1) backwards; animation-delay: var(--d, 0ms); }
+
+/* Revelado al hacer scroll (IntersectionObserver añade .anim-rise) */
+.reveal-pending { opacity: 0; }
+
+/* Foco que sigue al puntero sobre la trama de semitono */
+.spotlight {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 250ms ease;
+  background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), rgba(198, 244, 50, 0.85), transparent 70%);
+  mix-blend-mode: screen;
+}
+.group\/hero:hover .spotlight { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-slam, .anim-rise, .anim-pop, .anim-flash, .anim-wiggle, .word-mask > span { animation: none !important; }
+  .anim-leave { animation-duration: 1ms !important; }
+  .reveal-pending { opacity: 1; }
+  .spotlight { display: none; }
+}
